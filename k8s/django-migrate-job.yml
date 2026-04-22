@@ -1,0 +1,23 @@
+apiVersion: batch/v1
+kind: job
+metadata:
+  name: django-migrate-job
+  namespace: k8s-vm-app
+spec:
+  backofflimit: 3
+  template:
+    spec:
+      restartPolicy: onFailure
+      initContainers:
+      - name: wait-for-postgres
+        image: busybox
+        command: ['sh', '-c', 'until nc -z postgres 5432; do echo waiting for postgres; sleep 2; done;']
+      containers:
+      - name: django-migrate
+        image: afripointdevops/django-app:latest
+        command: ["python", "manage.py", "migrate", "--noinput"]
+        envFrom:
+        - configMapRef:
+            name: app-config
+        - secretRef:
+            name: app-secrets
