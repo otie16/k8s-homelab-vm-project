@@ -42,7 +42,7 @@ spec:
           app: nextjs-frontend
     ports:
     - protocol: TCP
-      port: 8000
+      port: 8002
 
 ---
 # FRONTEND - only accept from ingress controller
