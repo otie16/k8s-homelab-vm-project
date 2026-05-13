@@ -1,7 +1,17 @@
 from django.urls import path, include
+from django.http import JsonResponse
+
+
+def health(request):
+    return JsonResponse({'status': 'ok'})
+
+
+def ready(request):
+    return JsonResponse({'status': 'ready'})
+
 
 urlpatterns = [
     path('api/', include('tasks.urls')),
-    path('health/', lambda request: __import__('django.http', fromlist=['JsonResponse']).JsonResponse({'status': 'ok'})),
-    path('ready/', lambda request: __import__('django.http', fromlist=['JsonResponse']).JsonResponse({'status': 'ready'})),
+    path('health/', health),
+    path('ready/', ready),
 ]

@@ -1,6 +1,7 @@
 import os
-from django.core.handlers.wsgi import WSGIHandler
+import django
+from django.core.wsgi import get_wsgi_application
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'core.settings')
-
-application = WSGIHandler()
+django.setup()
+application = get_wsgi_application()
